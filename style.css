@@ -1,0 +1,484 @@
+:root {
+    --bg-dark: #0a0a0a;
+    --bg-panel: rgba(255, 255, 255, 0.05);
+    --text-white: #ffffff;
+    --gold: #d4af37;        /* Champion Gold */
+    --gold-glow: #f1c40f;
+    --red: #e74c3c;         /* Boxing Red */
+    --blue: #2c3e50;        /* Board Color */
+    --board-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #050505; /* Deep black base */
+
+    /* New: subtle colorful corners */
+    background-image:
+        radial-gradient(circle at top left, rgba(231, 76, 60, 0.15), transparent 40%),
+        radial-gradient(circle at bottom right, rgba(212, 175, 55, 0.1), transparent 40%);
+    color: var(--text-white);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    text-transform: uppercase;
+
+}
+
+/* TYPOGRAPHY */
+h1, h2, h3 {
+    font-family: 'Teko', sans-serif; /* Athletic font */
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+h1 { font-size: 3.5rem; line-height: 0.9; }
+h2 { font-size: 2rem; color: var(--gold); }
+
+.highlight { color: var(--red); }
+.gold-text { color: var(--gold); }
+.subtitle { letter-spacing: 5px; font-size: 0.8rem; opacity: 0.7; margin-top: 5px; }
+
+/* LAYOUT & TRANSITIONS */
+#landing-page, #game-ui {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.main-logo {
+    max-width: 90%;       /* Fits on mobile screens */
+    width: 500px;         /* Good size on desktop */
+    height: auto;         /* Maintains aspect ratio */
+    display: block;
+    margin: 0 auto 10px auto; /* Centers it and adds gap below */
+
+    /* Optional: Adds a subtle 'lift' effect from the background */
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+
+    /* Animation: Slight slow breathe effect */
+    animation: logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+    100% { transform: translateY(0px); }
+}
+
+/* Update subtitle to sit tighter under the logo */
+.subtitle {
+    letter-spacing: 6px;
+    font-size: 1rem;
+    opacity: 0.8;
+    margin-top: 0;
+    color: var(--gold);
+    font-weight: bold;
+}
+
+
+
+.hidden { opacity: 0; pointer-events: none; z-index: -1; }
+.active { opacity: 1; z-index: 10; }
+
+/* GLASS PANEL CARD */
+.glass-panel {
+    background: var(--bg-panel);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2.5rem;
+    border-radius: 4px; /* Sharp corners for boxing vibe */
+    box-shadow: 0 0 30px rgba(0,0,0,0.5);
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+
+/* SIDE LOGOS */
+.side-logo {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 250px;
+    height: auto;
+    opacity: 0.2; /* Kept subtle so it doesn't distract */
+    z-index: 1;   /* Sits BEHIND the game board */
+    pointer-events: none; /* Crucial: lets you click the board even if logos overlap */
+    filter: contrast(150%) brightness(0.9);
+}
+
+.side-branding {
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%); /* Center vertically */
+    display: flex;
+    flex-direction: column; /* Stack logo on top of gloves */
+    align-items: center;
+    z-index: 1;
+    pointer-events: none; /* Click-through allowed */
+    opacity: 0.25; /* Subtle transparency */
+    filter: grayscale(0%) contrast(150%) brightness(0.9);
+}
+.side-branding.left { left: 15%; }
+.side-branding.right { right: 15%; }
+
+.side-logo {
+    width: 300px;
+    height: auto;
+    display: block;
+}
+
+.side-logo.left {
+    left: 15%;
+}
+
+.side-logo.right {
+    right: 15%;
+}
+
+/* Ensure the main content sits ON TOP of the logos */
+.card, .logo-area {
+    position: relative;
+    z-index: 5;
+}
+
+/* MOBILE FIX: Hide side logos on small screens to prevent clutter */
+@media (max-width: 1200px) {
+    .side-logo {
+        display: none;
+    }
+}
+/* THE HANGING GLOVES */
+.side-gloves {
+    width:100px; /* Smaller than logo */
+    height: auto;
+    margin-top: 195px; /* Overlap slightly with the logo above */
+
+    /* THE SWING ANIMATION */
+    transform-origin: top center; /* Swing from the string/top */
+    animation: swing 3s ease-in-out infinite;
+}
+
+@keyframes swing {
+    0% { transform: rotate(5deg); }
+    50% { transform: rotate(-5deg); }
+    100% { transform: rotate(5deg); }
+}
+
+/* HIDE ON MOBILE/TABLET */
+@media (max-width: 1200px) {
+    .side-branding { display: none; }
+}
+
+
+
+/* LANDING PAGE SPECIFICS */
+.logo-area { text-align: center; margin-bottom: 1rem; }
+
+.matchup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 2rem 0;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding: 1rem 0;
+}
+
+.vs { font-size: 2rem; font-weight: bold; font-style: italic; color: #555; }
+.stat { font-size: 0.8rem; opacity: 0.6; margin-bottom: 5px; }
+.color-swatch { width: 40px; height: 10px; margin: 5px auto; }
+.red { background: var(--red); box-shadow: 0 0 10px var(--red); }
+.gold { background: var(--gold); box-shadow: 0 0 10px var(--gold); }
+
+.rules-box {
+    background: rgba(0,0,0,0.3);
+    padding: 1rem;
+    font-size: 0.9rem;
+    margin-bottom: 2rem;
+    border-left: 3px solid var(--gold);
+    text-align: left;
+    text-transform: none;
+}
+
+/* BUTTONS */
+button {
+    background: transparent;
+    color: var(--gold);
+    border: 2px solid var(--gold);
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    font-family: 'Teko', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 2px;
+}
+
+button:hover {
+    background: var(--gold);
+    color: black;
+    box-shadow: 0 0 20px var(--gold-glow);
+}
+
+#start-btn { width: 100%; }
+.reset-btn { padding: 5px 15px; font-size: 1.2rem; }
+
+/* GAME HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    max-width: 500px;
+    margin-bottom: 1rem;
+}
+
+.turn-indicator-box {
+    background: #222;
+    padding: 5px 20px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    min-width: 150px;
+    text-align: center;
+    font-weight: bold;
+    color: var(--text-white);
+    box-shadow: inset 0 0 10px black;
+}
+
+/* BOARD STYLING */
+.ring-container {
+    position: relative;
+    padding: 20px;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+#board {
+    background-color: var(--blue); /* The blue backing */
+    padding: 15px;
+    display: grid;
+    grid-template-columns: repeat(7, 50px);
+    grid-template-rows: repeat(6, 50px);
+    gap: 8px;
+
+    /* NEW: Heavy Metallic Frame */
+    border: 8px solid #1a1a1a;
+    border-radius: 10px;
+    box-shadow:
+        0 20px 50px rgba(0,0,0,0.8), /* Deep shadow on floor */
+        inset 0 0 20px rgba(0,0,0,0.8); /* Inner shadow */
+
+    position: relative;
+    z-index: 2;
+}
+
+/* Make empty slots look like actual holes */
+.cell {
+    width: 50px; height: 50px;
+    background-color: #1a1e22; /* Very dark grey, almost black */
+    border-radius: 50%;
+    cursor: pointer;
+    /* Inner shadow makes it look like a hole */
+    box-shadow: inset 3px 3px 8px rgba(0,0,0,0.6);
+    border: 1px solid rgba(255,255,255,0.05); /* Subtle highlight on rim */
+}
+
+/* PIECES */
+/* UPDATED PIECE STYLES */
+.cell.player1 {
+    /* SAM (Red): 3D ball effect */
+    background: radial-gradient(circle at 35% 35%, #ff7675, #e74c3c, #c0392b);
+    box-shadow:
+        inset -3px -3px 5px rgba(0,0,0,0.5), /* Inner shadow for depth */
+        0 0 10px rgba(231, 76, 60, 0.6);     /* Outer neon glow */
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.cell.player2 {
+    /* YOU (Gold): 3D ball effect */
+    background: radial-gradient(circle at 35% 35%, #f1c40f, #d4af37, #9a7d0a);
+    box-shadow:
+        inset -3px -3px 5px rgba(0,0,0,0.5),
+        0 0 15px rgba(241, 196, 15, 0.6);
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+.falling { animation: drop 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+@keyframes drop {
+    0% { transform: translateY(-400px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+/* WINNER MODAL */
+/* WINNER MODAL - HIGH & VIVID */
+#message-modal {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    /* Transparent background to see the board */
+    background: rgba(0,0,0,0);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Snap to TOP */
+    padding-top: 10px;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.modal-content {
+    pointer-events: auto;
+    background: rgba(5, 5, 5, 0.95); /* Deep black for contrast */
+    border: 3px solid var(--gold); /* Thicker border */
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); /* Gold glow around box */
+    padding: 1rem 3rem;
+    border-radius: 0 0 15px 15px;
+    text-align: center;
+    animation: slideDown 0.4s cubic-bezier(0.18, 0.89, 0.32, 1.28); /* Bouncier entry */
+    min-width: 320px;
+    position: relative;
+    z-index: 101;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-120%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* BIG, BOLD, GLOWING TEXT */
+#winner-header {
+    font-family: 'Teko', sans-serif;
+    font-size: 4.5rem; /* Large size restored */
+    line-height: 0.9;
+    font-weight: 700;
+    margin-bottom: 0px;
+    margin-top: 5px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    /* The Glow will be applied by JS colors, but base shadow here: */
+    text-shadow: 0 0 15px currentColor;
+}
+
+#winner-text {
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #eee;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    opacity: 0.9;
+}
+
+/* Make the button pop too */
+.pulsing-btn {
+    background: var(--gold);
+    color: black;
+    font-weight: 900;
+    text-transform: uppercase;
+    border: none;
+    padding: 10px 30px;
+    font-size: 1.5rem;
+    box-shadow: 0 0 15px var(--gold-glow);
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+
+.pulsing-btn { animation: pulse 1.5s infinite; }
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(212, 175, 55, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+    #board {
+        gap: 4px;
+        grid-template-columns: repeat(7, 40px);
+        grid-template-rows: repeat(6, 40px);
+    }
+    .cell { width: 40px; height: 40px; }
+    h1 { font-size: 2.5rem; }
+}
+
+/* --- ARENA BACKGROUND FX --- */
+
+/* Container ensures effects stay behind everything */
+.arena-background {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: -5; /* Deep background */
+    overflow: hidden;
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+}
+
+/* SEARCHLIGHTS (Beams of light) */
+.spotlight {
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: conic-gradient(
+        from 180deg at 50% 50%,
+        transparent 0deg,
+        rgba(255, 255, 255, 0.03) 15deg,
+        transparent 30deg
+    );
+    transform-origin: center;
+    mix-blend-mode: overlay; /* Blends nicely with dark bg */
+}
+
+/* Beam 1: Rotate Clockwise */
+.spotlight.one {
+    animation: rotateLight 15s linear infinite;
+}
+
+/* Beam 2: Rotate Counter-Clockwise & Offset */
+.spotlight.two {
+    top: -60%; left: -60%;
+    background: conic-gradient(
+        from 0deg at 50% 50%,
+        transparent 0deg,
+        rgba(212, 175, 55, 0.05) 20deg, /* Slight Gold Tint */
+        transparent 40deg
+    );
+    animation: rotateLightReverse 20s linear infinite;
+}
+
+
+
+/* RISING EMBERS (Simulated particles) */
+.embers {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image:
+        radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+        radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+        radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
+    background-size: 550px 550px, 350px 350px, 250px 250px;
+    background-position: 0 0, 0 0, 0 0;
+    opacity: 0.3;
+    animation: rise 60s linear infinite;
+}
+
+@keyframes rise {
+    0% { background-position: 0 600px, 0 400px, 0 300px; }
+    100% { background-position: 0 0, 0 0, 0 0; }
+}

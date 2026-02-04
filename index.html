@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wilder Fight Night: Team Samyuktha</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600;700&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div class="arena-background">
+        <div class="spotlight one"></div>
+        <div class="spotlight two"></div>
+        <div class="embers"></div>
+    </div>
+
+    <div class="vignette"></div>
+    <div class="vignette"></div>
+    <div class="side-branding left">
+        <img src="logo.png" alt="Logo" class="side-logo">
+        <img src="gloves.png" alt="Gloves" class="side-gloves">
+    </div>
+
+    <div class="side-branding right">
+        <img src="logo.png" alt="Logo" class="side-logo">
+        <img src="gloves.png" alt="Gloves" class="side-gloves">
+    </div>
+    <div id="landing-page" class="active">
+
+
+            <div class="logo-area">
+                <h1>WILDER <span class="highlight">FIGHT NIGHT</span></h1>
+                <p class="subtitle">CHARITY SHOWDOWN</p>
+            </div>
+
+            <div class="card glass-panel">
+                <h2>TALE OF THE TAPE</h2>
+
+                <div class="matchup">
+                    <div class="fighter ai">
+                        <h3>Samyuktha</h3> <div class="stat">DEFENDING CHAMP</div>
+                        <div class="color-swatch red"></div>
+                        <p>RED CORNER (AI)</p>
+                    </div>
+                    <div class="vs">VS</div>
+                    <div class="fighter sam">
+                        <h3>YOU</h3>
+                        <div class="stat">THE CHALLENGER</div>
+                        <div class="color-swatch gold"></div>
+                        <p>GOLD CORNER</p>
+                    </div>
+                </div>
+
+                <div class="rules-box">
+                    <p><strong>GOAL:</strong> Can you knock out Sam by getting 4 discs in a row?</p>
+                    <p><strong>CAUSE:</strong> Raising funds for the fight we've all been waiting for.</p>
+                </div>
+
+                <button id="start-btn" onclick="startGame()">ENTER THE RING</button>
+            </div>
+        </div>
+
+        <div id="game-ui" class="hidden">
+            <header>
+                <div class="header-left">
+                    <h2>WILDER <span class="gold-text">FN</span></h2>
+                </div>
+
+                <div class="turn-indicator-box">
+                    <span id="turn-indicator">WAITING FOR BELL...</span>
+                </div>
+
+                <button class="reset-btn" onclick="resetGame()">REMATCH</button>
+            </header>
+
+            <div class="ring-container">
+                <div id="board">
+                    </div>
+                <div class="ring-ropes"></div>
+            </div>
+
+            <div id="message-modal" class="hidden">
+                <div class="modal-content glass-panel">
+                    <h1 id="winner-header">KNOCKOUT!</h1>
+                    <h2 id="winner-text"></h2>
+                    <button onclick="resetGame()" class="pulsing-btn">FIGHT AGAIN</button>
+                </div>
+            </div>
+        </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
