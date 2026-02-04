@@ -16,7 +16,7 @@ function startGame() {
     document.getElementById("landing-page").classList.add("hidden");
     document.getElementById("game-ui").classList.remove("hidden");
     document.getElementById("game-ui").classList.add("active");
-    resetGame(); 
+    resetGame();
 }
 // ... Variables and Imports ...
 
