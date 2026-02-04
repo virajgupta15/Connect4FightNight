@@ -4,7 +4,7 @@ const PLAYER_AI = 1; // 'X' (Red)
 const PLAYER_HUMAN = 2; // 'O' (Gold/Team Sam)
 
 // PASTE YOUR RENDER URL HERE
-const API_URL = "http://127.0.0.1:5000";
+const API_URL = "https://connect4fightnight-backend.onrender.com";
 
 let board = [];
 let currColumns = [];
