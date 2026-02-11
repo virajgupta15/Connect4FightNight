@@ -160,7 +160,6 @@ class Player:
         return best_move
 
     def get_adaptive_depth(self, gameBoard, ab=False):
-        return 2
         b = gameBoard.numColumns
         if ab:
             if b <= 6:
